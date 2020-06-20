@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
-import { Post } from 'post.model';
+import { Post } from './post.model';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ import { Post } from 'post.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  loadedPosts = [];
+  loadedPosts: Post[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
         return postsArray;
       }))
       .subscribe(posts => {
-        console.log(posts);
+        this.loadedPosts = posts;
       });
   }
 }
