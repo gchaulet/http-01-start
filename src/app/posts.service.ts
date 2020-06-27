@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 
 import { Post } from './post.model';
 import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class PostsService {
     loadedPosts: Post[] = [];
     isFetching = false;
+    error =new Subject<string>();
 
     constructor(private http: HttpClient) {}
 
@@ -20,6 +22,8 @@ export class PostsService {
       )
       .subscribe(responseData => {
         console.log(responseData);
+      }, error => {
+        this.error.next(error.message);
       });
     }
 
@@ -35,5 +39,9 @@ export class PostsService {
           }
           return postsArray;
         }));
+    }
+
+    deletePosts() {
+      return this.http.delete('https://http-01-start-42684.firebaseio.com/posts.json');
     }
 }
